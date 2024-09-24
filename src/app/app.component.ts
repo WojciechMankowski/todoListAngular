@@ -1,47 +1,66 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TodolistComponent } from './todolist.component';
-import { Task } from './Type/Task';
-import listState from './state/stateTask';
-import ErrorType from './Type/errorType';
+import listState from './stateTask';
 import { NgIf } from '@angular/common';
+import { TasksService } from './task-service.service';
+import { Task } from '../Types/Task';
+
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, TodolistComponent, NgIf],
   template: `
-  <p *ngIf="listState.state === 'loading' ">Loading ...</p>
-  <p *ngIf="listState.state === 'error'" >{{listState.error.message}}</p>
-  <app-todolist [tasks]="listState.response" *ngIf="listState.state === 'succes'"></app-todolist>`,
+    <div class="flex flex-col justify-center items-center min-h-screen">
+      <header class="text-center mb-4 bg-gray-200 w-full h-35">
+        <h2 class="text-2xl font-semibold">Lista zadań</h2>
+      </header>
+      <div class="max-w-screen-lg">
+        <p *ngIf="listState.state === 'loading'" class="text-gray-500">
+          Loading...
+        </p>
+        <p
+          *ngIf="listState.state === 'error'"
+          class="text-red-500 font-bold text-lg"
+        >
+          {{ listState.error.message }}
+        </p>
+        <app-todolist
+          [tasks]="listState.response"
+          *ngIf="listState.state === 'succes'"
+          class="text-xl"
+          (updtateTask)="updateTasks()"
+        ></app-todolist>
+      </div>
+    </div>
+  `,
 })
 export class AppComponent {
-  tasks: Task[] = [];
-  listState: listState = { state: 'start' };
-  private readonly URL = 'http://localhost:3000';
-  constructor() {
+  title = 'Lista zadań';
+  listState: listState = { state: 'succes', response: [] };
+  tasksService = inject(TasksService);
+
+  ngOnInit() {
     this.listState = { state: 'loading' };
-    fetch(`${this.URL}/tasks`)
-      .then<Task[] | ErrorType>((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return {
-            status: response.status,
-            message: response.statusText,
-          };
-        }
-      })
-      .then((tasks) => {
-        if (Array.isArray(tasks)) {
-          setTimeout(() => {
-            this.listState = {
-              state: 'succes',
-              response: tasks,
-            };
-          }, 1200);
-        } else {
-          this.listState = { state: 'error', error: tasks };
-        }
-      });
+    this.tasksService.getALL().then((tasks) => {
+      if (Array.isArray(tasks)) {
+        this.listState = {
+          state: 'succes',
+          response: tasks,
+        };
+      } else {
+        this.listState = { state: 'error', error: tasks };
+      }
+    });
   }
+
+  updateTasks(tasks: Task[] = []) {
+    if (this.listState.state === 'succes') {
+      // console.table(this.listState.response);
+      this.listState = { state: 'succes', response: tasks };
+      // console.table(this.listState.response);
+    }
+  }
+  // funkcja do dodwania zadania
+  // funkcja do usuwania zadania i edytowania zadania
 }

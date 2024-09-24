@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Task } from './Type/Task';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Task } from '../Types/Task';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import numerals from './Numerals';
@@ -11,7 +11,12 @@ import numerals from './Numerals';
   template: `
     <div class="bg-blue shadow-md rounded-lg p-4">
       <div class="flex items-center">
-        <input type="checkbox" [(ngModel)]="task.completed" class="mr-2" />
+        <input
+          type="checkbox"
+          [(ngModel)]="task.completed"
+          class="mr-2"
+          (click)="changeStatusTask()"
+        />
         <h3 class="text-lg font-medium">{{ task.title }}</h3>
       </div>
       <div class="mt-2">
@@ -22,7 +27,6 @@ import numerals from './Numerals';
       </div>
     </div>
   `,
-  
 })
 export class TaskComponent {
   @Input() task: Task = {
@@ -35,7 +39,7 @@ export class TaskComponent {
     priority: 'high',
     repeats: false,
   };
-
+  @Output() taskChangedStatus = new EventEmitter<Task>();
   getPriorityName(priority: string): string {
     switch (priority) {
       case 'high':
@@ -92,5 +96,9 @@ export class TaskComponent {
     } else {
       return '';
     }
+  }
+  changeStatusTask() {
+    const updateTask: Task = { ...this.task, completed: !this.task.completed };
+    this.taskChangedStatus.emit(updateTask)
   }
 }
