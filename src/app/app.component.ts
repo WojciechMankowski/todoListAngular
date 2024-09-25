@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { TodolistComponent } from './todolist.component';
 import listState from './stateTask';
 import { NgIf } from '@angular/common';
-import { TasksService } from './task-service.service';
+import { TasksService } from './tasks-service.service';
 import { Task } from '../Types/Task';
 
 @Component({

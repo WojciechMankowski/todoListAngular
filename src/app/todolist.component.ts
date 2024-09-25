@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Task } from '../Types/Task';
 import { TaskComponent } from './task.component';
 import { NgFor } from '@angular/common';
-import { TasksService } from './task-service.service';
+import { TasksService } from './tasks-service.service';
 @Component({
   selector: 'app-todolist',
   standalone: true,
