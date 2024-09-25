@@ -12,6 +12,7 @@ import { TasksService } from './tasks-service.service';
       <app-task
         [task]="task"
         (taskChangedStatus)="updateTaskStatus(task)"
+        (taskDelet)="deletTask(task.id)"
       ></app-task>
     </li>
   </ul>`,
@@ -29,6 +30,20 @@ export class TodolistComponent {
         if ('id' in response) {
           this.tasks = [...this.tasks, response];
         }
+        else{
+          alert("Nie można zauktlizować statusu zadania")
+        }
       });
+  }
+  deletTask(taskID: number) {
+    this.tasksService.deletTask(taskID).then((response) => {
+      if ('id' in response) {
+        const taskID = response.id
+        this.tasks = this.tasks.filter(task => task.id !== taskID)
+      }
+      else{
+        alert("Nie można usunąć zadania")
+      }
+    });
   }
 }

@@ -36,4 +36,18 @@ export class TasksService {
       return Error('Cant update task');
     });
   }
+  async deletTask(id: number) {
+    return fetch(`http://localhost:3000/tasks/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: id }),
+    }).then<Task | Error>((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      return Error('Cant update task');
+    });
+  }
 }
