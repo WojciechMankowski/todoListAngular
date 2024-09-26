@@ -20,36 +20,70 @@ import { featherCalendar } from '@ng-icons/feather-icons';
     provideIcons({ featherTrash2, featherUser, featherCheck, featherX }),
     provideIcons({ featherCalendar }),
   ],
-
   template: `
-    <div class="bg-blue shadow-md rounded-lg p-4">
-      <div class="flex items-center">
+    <div
+      class="
+        grid grid-cols-2 gap-4
+        bg-gray-300 border col-span-1
+        border-gray-300 shadow-md 
+        rounded-lg
+        p-4 
+        mb-4 
+        mr-8"
+    >
+      <div class="h-40">
         <input
           type="checkbox"
           [(ngModel)]="task.completed"
           class="mr-2"
           (click)="changeStatusTask()"
         />
-        <h3 class="text-lg font-medium">{{ task.title }}</h3>
-      </div>
-      <div class="mt-2">
+        <h3 class="text-lg font-medium text-gray-800">{{ task.title }}</h3>
         <p>Priorytet: {{ priority }}</p>
-        <p>Opis: {{ task.description }}</p>
-        <p>Data: {{ task.dueDate }} {{ task.time }}</p>
-        <p *ngIf="task.repeats">Powtarza się: {{ getRepeats() }}</p>
-        <button (click)="openAndCloseWindow()">
-          <ng-icon name="featherTrash2" class="icon--hover" />
-        </button>
-        <div *ngIf="show" class="modal">
-          <div class="modal-content">
-            <p>Czy na pewno chcesz usunąć to zadanie: {{ task.title }}?</p>
-            <button (click)="openAndCloseWindow()">Anuluj</button>
-            <button (click)="delateTask()">Potwierdź</button>
+      </div>
+
+      <div class="h-40">
+        <p class="text-sm">Opis: {{ task.description }}</p>
+        <p class="text-sm">Data: {{ task.dueDate }} {{ task.time }}</p>
+        <p *ngIf="task.repeats" class="text-sm">
+          Powtarza się: {{ getRepeats() }}
+        </p>
+      </div>
+
+      <div class="col-span-3 flex flex-col ">
+        <div class="flex items-center justify-center h-18 pt-4">
+          <button (click)="openAndCloseWindow()" *ngIf="!show">
+            <ng-icon name="featherTrash2" size="1.5rem" />
+          </button>
+          <button>
+            <ng-icon
+              name="featherCalendar"
+              class="mr-2"
+              *ngIf="!show"
+              size="1.5rem"
+            />
+          </button>
+
+          <div *ngIf="show">
+            <p>Czy na pewno chcesz usunąć to zadanie?</p>
+            <button (click)="delateTask()">
+              <ng-icon
+                name="featherCheck"
+                class="icon--hover"
+                color="green"
+                size="1.5rem"
+              />
+            </button>
+            <button (click)="openAndCloseWindow()">
+              <ng-icon
+                name="featherX"
+                class="icon--hover"
+                color="red"
+                size="1.5rem"
+              />
+            </button>
           </div>
         </div>
-        <button>
-          <ng-icon name="featherCalendar" class="text-sm" />
-        </button>
       </div>
     </div>
   `,

@@ -5,11 +5,11 @@ import listState from './stateTask';
 import { NgIf } from '@angular/common';
 import { TasksService } from './tasks-service.service';
 import { Task } from '../Types/Task';
-
+import { AddTaskComponent } from './add-task.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TodolistComponent, NgIf],
+  imports: [RouterOutlet, TodolistComponent, NgIf, AddTaskComponent],
   template: `
     <div class="flex flex-col justify-center items-center min-h-screen">
       <header class="text-center mb-4 bg-gray-200 w-full h-35">
@@ -25,6 +25,7 @@ import { Task } from '../Types/Task';
         >
           {{ listState.error.message }}
         </p>
+        <app-add-task></app-add-task>
         <app-todolist
           [tasks]="listState.response"
           *ngIf="listState.state === 'succes'"

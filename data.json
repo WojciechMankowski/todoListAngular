@@ -47,20 +47,6 @@
       "time": 45,
       "priority": "low",
       "repeats": false
-    },
-    {
-      "id": "5",
-      "title": "Opłacić rachunki",
-      "description": "Zapłacić rachunki za prąd, internet i telefon",
-      "completed": true,
-      "dueDate": "2024-10-01T23:59:59.000Z",
-      "time": 30,
-      "priority": "high",
-      "repeats": true,
-      "repeatInterval": {
-        "type": "months",
-        "every": 1
-      }
     }
   ]
 }
