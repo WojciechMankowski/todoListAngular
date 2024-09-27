@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TodolistComponent } from './todolist.component';
-import listState from './stateTask';
+import { TodolistComponent } from './tasks/todolist.component';
+import listState from './utils/stateTask';
 import { NgIf } from '@angular/common';
-import { TasksService } from './tasks-service.service';
-import { Task } from '../Types/Task';
+import { TasksService } from './tasks/tasks-service.service';
+import { Task } from './utils/types/Task';
 import { FormsModule } from '@angular/forms';
-import { AddTaskComponent } from './add-task.component';
+import { AddTaskComponent } from './task/add-task.component';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +33,7 @@ import { AddTaskComponent } from './add-task.component';
         >
           {{ listState.error.message }}
         </p>
-        <app-add-task />
+        <app-add-task (addTask)="addTask($event)" />
         <app-todolist
           [tasks]="listState.response"
           *ngIf="listState.state === 'succes'"
@@ -68,25 +68,28 @@ export class AppComponent {
       this.listState = { state: 'succes', response: tasks };
     }
   }
-  addTask(task: Task) {
-    this.tasksService.add(task).then((response) => {
-      if (response instanceof Error) {
-        this.listState = {
-          state: 'error',
-          error: {
-            status: 404,
-            message: 'Wsytąpił błąd podczas dodawania zadania',
-          },
-        };
-      } else {
-        if (this.listState.state === 'succes') {
+  addTask(task: Task = {}) {
+
+      this.tasksService.add(task).then((response) => {
+        if (response instanceof Error) {
           this.listState = {
-            state: 'succes',
-            response: [...this.listState.response, response],
+            state: 'error',
+            error: {
+              status: 404,
+              message: 'Wsytąpił błąd podczas dodawania zadania',
+            },
           };
+        } else {
+          if (this.listState.state === 'succes') {
+            console.log(response);
+            this.listState = {
+              state: 'succes',
+              response: [...this.listState.response, response],
+            };
+          }
         }
-      }
-    });
+      });
+    
   }
   // funkcja do usuwania zadania i edytowania zadania
 }

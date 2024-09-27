@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { Task } from '../Types/Task';
-import { TaskComponent } from './task.component';
+import { Task } from '../utils/types/Task'
+import { TaskComponent } from '../task/task.component';
 import { NgFor } from '@angular/common';
 import { TasksService } from './tasks-service.service';
 // import { AddTaskComponent } from './add-task.component';
@@ -15,7 +15,7 @@ import { TasksService } from './tasks-service.service';
         <app-task
           [task]="task"
           (taskChangedStatus)="updateTaskStatus(task)"
-          (taskDelet)="deletTask(task.id )"
+          (taskDelet)="deletTask(task.id)"
         ></app-task>
       </div>
     </div>

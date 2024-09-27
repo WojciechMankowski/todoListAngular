@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
-import { Task } from '../Types/Task';
+import { Task } from '../utils/types/Task';
 
 type KeyTask = 'title' | 'priority' | 'type' | 'every';
 
@@ -119,6 +119,8 @@ type KeyTask = 'title' | 'priority' | 'type' | 'every';
   `,
 })
 export class AddTaskComponent {
+  @Output() addTask = new EventEmitter<Task>();
+  @Input() newTask: Task = {};
   priorities = [
     { value: 'low', viewValue: 'Niski' },
     { value: 'medium', viewValue: 'Średni' },
@@ -172,7 +174,7 @@ export class AddTaskComponent {
         time: 0,
         repeatInterval: { type, every },
       };
-      console.log(newTask);
+      this.addTask.emit(newTask);
     } else {
       keysTask.forEach((key) => {
         const isKeyInvalid =

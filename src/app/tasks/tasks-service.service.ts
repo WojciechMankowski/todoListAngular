@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Task } from '../Types/Task';
-import ErrorType from '../Types/errorType';
-import { wait } from './wait';
+import { Task } from '../utils/types/Task';
+import ErrorType from '../utils/types/errorType';
+import { wait } from '../utils/wait';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +53,7 @@ export class TasksService {
   }
 
   async add(data: Task) {
+    console.log(data);
     return fetch(`http://localhost:3000/tasks/`, {
       method: 'POST',
       headers: {
@@ -66,5 +67,4 @@ export class TasksService {
       return Error('Cant update task');
     });
   }
-
 }

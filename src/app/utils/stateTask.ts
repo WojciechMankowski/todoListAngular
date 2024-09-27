@@ -1,5 +1,5 @@
-import { Task } from '../Types/Task';
-import ErrorType from '../Types/errorType';
+import { Task } from './types/Task';
+import ErrorType from './types/errorType';
 type startState = {
   state: 'start';
 };

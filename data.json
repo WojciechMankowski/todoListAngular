@@ -47,6 +47,20 @@
       "time": 45,
       "priority": "low",
       "repeats": false
+    },
+    {
+      "id": 349,
+      "title": "Kup przysmaki kocie",
+      "description": "",
+      "completed": false,
+      "dueDate": "2024-09-27",
+      "priority": "medium",
+      "repeats": false,
+      "time": 0,
+      "repeatInterval": {
+        "type": null,
+        "every": 0
+      }
     }
   ]
 }

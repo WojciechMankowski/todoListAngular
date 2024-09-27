@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { Task } from '../Types/Task';
+import { Task } from '../utils/types/Task';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { TaskService } from './task.service';
@@ -102,7 +102,7 @@ export class TaskComponent {
   @Output() taskChangedStatus = new EventEmitter<Task>();
   @Output() taskDelet = new EventEmitter<number>();
   taskService = inject(TaskService);
-  priority = this.taskService.getPriorityName(this.task.priority);
+  priority = this.taskService.getPriorityName(this.task.priority as string);
   repeatInfo = this.taskService.getInfoRepeats(this.task);
   show = false;
 
