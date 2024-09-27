@@ -22,7 +22,8 @@ export class TasksService {
       }
     });
   }
-  async updateStatus(id: number, completed: boolean) {
+
+  async updateStatus(id: number | undefined, completed: boolean) {
     return fetch(`http://localhost:3000/tasks/${id}`, {
       method: 'PATCH',
       headers: {
@@ -36,7 +37,7 @@ export class TasksService {
       return Error('Cant update task');
     });
   }
-  async deletTask(id: number) {
+  async deletTask(id: number | undefined) {
     return fetch(`http://localhost:3000/tasks/${id}`, {
       method: 'DELETE',
       headers: {
@@ -50,4 +51,20 @@ export class TasksService {
       return Error('Cant update task');
     });
   }
+
+  async add(data: Task) {
+    return fetch(`http://localhost:3000/tasks/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }).then<Task | Error>((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      return Error('Cant update task');
+    });
+  }
+
 }

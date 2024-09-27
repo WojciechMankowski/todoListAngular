@@ -1,14 +1,14 @@
 export interface Task {
-    id: number;
-    title: string;
-    description: string;
-    completed: boolean;
-    dueDate: Date | undefined;
-    time: number
-    priority: 'low' | 'medium' | 'high';
-    repeats: boolean;
+    id?: number;
+    title?: string | null | undefined;
+    description?: string | null;
+    completed?: boolean | null | undefined;
+    dueDate?: Date | undefined | null | string;
+    time?: number | null
+    priority?: String |  null;
+    repeats?: boolean | null;
     repeatInterval?: {
-      type: 'days' | 'weeks' | 'months' | 'years';
-      every: number;
+      type: 'days' | 'weeks' | 'months' | 'years' | null | undefined | string;
+      every: number | null | undefined;
     };
   }

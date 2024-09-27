@@ -5,11 +5,19 @@ import listState from './stateTask';
 import { NgIf } from '@angular/common';
 import { TasksService } from './tasks-service.service';
 import { Task } from '../Types/Task';
+import { FormsModule } from '@angular/forms';
 import { AddTaskComponent } from './add-task.component';
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TodolistComponent, NgIf, AddTaskComponent],
+  imports: [
+    RouterOutlet,
+    TodolistComponent,
+    NgIf,
+    FormsModule,
+    AddTaskComponent,
+  ],
   template: `
     <div class="flex flex-col justify-center items-center min-h-screen">
       <header class="text-center mb-4 bg-gray-200 w-full h-35">
@@ -25,7 +33,7 @@ import { AddTaskComponent } from './add-task.component';
         >
           {{ listState.error.message }}
         </p>
-        <app-add-task></app-add-task>
+        <app-add-task />
         <app-todolist
           [tasks]="listState.response"
           *ngIf="listState.state === 'succes'"
@@ -57,11 +65,28 @@ export class AppComponent {
 
   updateTasks(tasks: Task[] = []) {
     if (this.listState.state === 'succes') {
-      // console.table(this.listState.response);
       this.listState = { state: 'succes', response: tasks };
-      // console.table(this.listState.response);
     }
   }
-  // funkcja do dodwania zadania
+  addTask(task: Task) {
+    this.tasksService.add(task).then((response) => {
+      if (response instanceof Error) {
+        this.listState = {
+          state: 'error',
+          error: {
+            status: 404,
+            message: 'Wsytąpił błąd podczas dodawania zadania',
+          },
+        };
+      } else {
+        if (this.listState.state === 'succes') {
+          this.listState = {
+            state: 'succes',
+            response: [...this.listState.response, response],
+          };
+        }
+      }
+    });
+  }
   // funkcja do usuwania zadania i edytowania zadania
 }

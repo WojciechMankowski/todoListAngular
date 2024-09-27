@@ -3,19 +3,19 @@ import { Task } from '../Types/Task';
 import { TaskComponent } from './task.component';
 import { NgFor } from '@angular/common';
 import { TasksService } from './tasks-service.service';
-import { AddTaskComponent } from './add-task.component';
+// import { AddTaskComponent } from './add-task.component';
 
 @Component({
   selector: 'app-todolist',
   standalone: true,
-  imports: [TaskComponent, NgFor, AddTaskComponent],
+  imports: [TaskComponent, NgFor],
   template: `
     <div class="grid grid-cols-3 gap-4">
       <div *ngFor="let task of tasks">
         <app-task
           [task]="task"
           (taskChangedStatus)="updateTaskStatus(task)"
-          (taskDelet)="deletTask(task.id)"
+          (taskDelet)="deletTask(task.id )"
         ></app-task>
       </div>
     </div>
@@ -38,7 +38,7 @@ export class TodolistComponent {
         }
       });
   }
-  deletTask(taskID: number) {
+  deletTask(taskID: number | undefined) {
     this.tasksService.deletTask(taskID).then((response) => {
       if ('id' in response) {
         const taskID = response.id;
